@@ -24,7 +24,29 @@
 export default {
   data: function() {
     return {
-      message: "Welcome to Vue.js!"
+      message: "Welcome to Vue.js!",
+      places: [
+        {
+          long: -122.421100,
+          lat: 37.791930,
+          description: "Bob's donuts!"
+        },
+        {
+          long: -122.424970,
+          lat: 37.778580,
+          description: "Johnny's Donuts!"
+        },
+        {
+          long: -122.025750,
+          lat: 36.973800,
+          description: "Marini's Downtown Santa Cruz"
+        },
+        {
+          long: -122.037120,
+          lat: 37.974730,
+          description: "Alpine bakery, Concord!"
+        }
+      ]
     };
   },
   created: function() {},
@@ -37,26 +59,41 @@ export default {
         zoom: 12 // starting zoom
     });
 
-    // create the popup
-    var popup = new mapboxgl.Popup({ offset: 25 })
-    .setText("Bob's Donuts, makes big donuts");
+    this.places.forEach(function(place) {
+      // create the popup
+      var popup = new mapboxgl.Popup({ offset: 25 })
+      .setText(place.description);
 
-    // create another popup
-    var popup2 = new mapboxgl.Popup({ offset: 25 })
-    .setText("Johnny's Donuts, makes great cronuts");
-     
-    // create the marker
-    new mapboxgl.Marker()
-    .setLngLat([-122.421100, 37.791930])
-    .setPopup(popup) // sets a popup on this marker
-    .addTo(map);
+      // create the marker
+      new mapboxgl.Marker()
+      .setLngLat([place.long, place.lat])
+      .setPopup(popup) // sets a popup on this marker
+      .addTo(map);
+    });
 
-    // create another marker
-    new mapboxgl.Marker()
-    .setLngLat([-122.424970, 37.778580])
-    .setPopup(popup2) // sets a popup on this marker
-    .addTo(map);
+    // var mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
 
+    // mapboxClient.geocoding.forwardGeocode({
+    //     query: 'San Francisco, Ca',
+    //     autocomplete: false,
+    //     limit: 1
+    // })
+    //     .send()
+    //     .then(function (response) {
+    //         if (response && response.body && response.body.features && response.body.features.length) {
+    //             var feature = response.body.features[0];
+
+    //             var map = new mapboxgl.Map({
+    //                 container: 'map',
+    //                 style: 'mapbox://styles/mapbox/streets-v11',
+    //                 center: feature.center,
+    //                 zoom: 10
+    //             });
+    //             new mapboxgl.Marker()
+    //                 .setLngLat(feature.center)
+    //                 .addTo(map);
+    //         }
+    //     });
 
   },
   methods: {}
